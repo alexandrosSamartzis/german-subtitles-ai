@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Environments
+.env
+.venv/
+env/
+venv/
+
+# Data & output
+data/
+*.docx
+*.txt
+*.csv
+
+# System/IDE
+.DS_Store
+*.swp
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Jupyter (optional)
+.ipynb_checkpoints/
