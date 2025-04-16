@@ -13,6 +13,7 @@ def extract_text_between_tags(xml_content):
     pattern = r"<tt:span style=\"textWhite\">(.*?)</tt:span>"
     return re.findall(pattern, xml_content)
 
+
 def save_extracted_text_to_docx(text_list, output_path):
     doc = Document()
     for text in text_list:
@@ -20,8 +21,8 @@ def save_extracted_text_to_docx(text_list, output_path):
     doc.save(output_path)
     print(f"✅ DOCX saved to: {output_path}")
 
-# Combine subtitles into a single string
 
+# Combine subtitles into a single string
 
 
 def main():
@@ -49,12 +50,13 @@ def main():
     save_extracted_text_to_docx(extracted_texts, output_file)
     analysis = analyze_german_text_with_chatgpt(extracted_texts)
 
-# Save result
+    # Save result
     output_path = Path("data") / f"chatgpt_analysis_{timestamp}.txt"
-    with open(output_path, 'w', encoding='utf-8') as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(analysis)
 
     print(f"📊 ChatGPT analysis saved to: {output_path}")
+
 
 if __name__ == "__main__":
     main()

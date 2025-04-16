@@ -2,6 +2,7 @@
 import requests
 import re
 
+
 def find_latest_subtitle_url():
     """
     Scrape the Tagesschau homepage and find the most recent untertitel-XXXXX.xml subtitle URL.
@@ -11,7 +12,7 @@ def find_latest_subtitle_url():
     if response.status_code != 200:
         print("❌ Failed to load homepage.")
         return None
-    response.encoding = 'utf-8'  # 👈 Force correct encoding
+    response.encoding = "utf-8"  # 👈 Force correct encoding
     text = response.text
 
     # Search for pattern like 'untertitel-73358.xml'
