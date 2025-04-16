@@ -1,4 +1,5 @@
 # german-subtitles-ai
+
 # 🇩🇪 German Subtitle Simplifier App
 
 **A personal language-learning companion that fetches subtitles from German news, simplifies them with AI, and extracts key vocabulary and grammar to help you grow — built with Python, love, and ambition.**
@@ -10,6 +11,7 @@
 This app connects to a subtitle XML file published alongside daily videos from [Tagesschau](https://www.tagesschau.de/), one of Germany's most prominent news channels.
 
 **The flow:**
+
 1. 🔍 It parses the subtitle file by inspecting the network traffic from the Tagesschau website.
 2. 🧼 Cleans and extracts readable text from the XML structure.
 3. 🤖 Sends the cleaned German text to **ChatGPT** (via OpenAI API) using a carefully crafted prompt:
@@ -41,7 +43,7 @@ I’m growing this tool step by step — here's what's coming next:
   - View results directly in browser
 - 🧠 **Local AI Fallback**:
   - Integrate with [Ollama](https://ollama.com) to use models like Mistral/Gemma offline
-  - Use my MacBook’s M2 GPU cores efficiently
+  - Use my GPU cores efficiently
 - 🗃 **Database Integration**:
   - Save subtitle sessions, simplified texts, and vocabulary
   - Store and tag vocabulary in a PostgreSQL DB
@@ -106,3 +108,4 @@ MIT License – open, free, and made to be shared.
 This project is part of my developer portfolio — but more than that, it’s my language learning partner, and a representation of how I solve problems by combining curiosity, technology, and automation.
 
 Disclaimer: I’ve also been using tools like ChatGPT as a support for development, planning, and language — not just as a code assistant, but as a way to clarify ideas and move faster
+```
