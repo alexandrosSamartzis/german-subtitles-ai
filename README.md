@@ -10,6 +10,10 @@
 
 This app connects to a subtitle XML file published alongside daily videos from [Tagesschau](https://www.tagesschau.de/), one of Germany's most prominent news channels.
 
+## One-Click Desktop Launcher (macOS)
+
+To streamline the development workflow, a macOS desktop shortcut was created using Automator. With a single click, it opens the terminal, activates the Conda environment, and runs the Streamlit app in the browser. This makes the tool feel like a native app while keeping all the benefits of a Python-based backend.
+
 **The flow:**
 
 1. 🔍 It parses the subtitle file by inspecting the network traffic from the Tagesschau website.
