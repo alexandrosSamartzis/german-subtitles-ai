@@ -3,6 +3,8 @@
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import requests
+import json
 
 load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 load_dotenv()
@@ -11,8 +13,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 if api_key is None:
     raise ValueError("OpenAI API key is not set in environment variables.")
-import requests
-import json
+
 
 # Check key is valid
 if not api_key or not api_key.startswith("sk-"):

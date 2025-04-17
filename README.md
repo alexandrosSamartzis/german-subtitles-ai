@@ -35,6 +35,48 @@ To streamline the development workflow, a macOS desktop shortcut was created usi
 
 ---
 
+## Required Local Models (Ollama)
+
+To run this app locally, install Ollama and pull the required models:
+
+```bash
+# Yi
+ollama pull yi:6b
+
+# DeepSeek Coder
+ollama pull deepseek-coder:6.7b
+
+# Mistral
+ollama pull mistral
+
+# LLaMA 3
+ollama pull llama3:8b
+```
+
+## 🖼️ Preview
+
+Here’s a sneak peek of the UI in development:
+
+![Streamlit UI Preview](models.png)
+
+IT takes too much space for all models to co-exist so remember to run into:
+
+```bash
+# Yi
+ollama rm yi:6b
+ollama rm deepseek-coder:6.7b
+ollama rm mistral
+ollama rm llama3:8b
+```
+
+```or more generally
+ollama rm <model>
+```
+
+```after checking the
+ollama list
+```
+
 ## 🚧 Roadmap: The Future of the App
 
 I’m growing this tool step by step — here's what's coming next:
@@ -84,7 +126,7 @@ OPENAI_API_KEY=your-api-key-here
 Then run the app normally using:
 
 ```bash
-python app/api.py
+python app/main.py
 
 💡 Contributing / Feedback
 
