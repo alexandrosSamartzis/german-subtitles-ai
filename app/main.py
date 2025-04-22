@@ -1,62 +1,24 @@
-from docx import Document
-import re
-from parser import find_latest_subtitle_url
-from pathlib import Path
-from datetime import datetime
-from fetcher import download_html_to_text
-from api import analyze_german_text_with_chatgpt
+# main.py
+import sys
 from pathlib import Path
 
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+from app.ollama import ollama_request
+import os
 
-def extract_text_between_tags(xml_content):
-    # Regex pattern to find text within <tt:span style="textWhite">...</tt:span>
-    pattern = r"<tt:span style=\"textWhite\">(.*?)</tt:span>"
-    return re.findall(pattern, xml_content)
+# (Optional) if Ollama isn't found, manually add it to PATH
+os.environ["PATH"] += (
+    os.pathsep + "/Users/YOUR_USERNAME/.ollama/bin"
+)  # Replace if needed
 
+text = "Der Papst ist am Ostersonntag gestorben. Tausende Menschen beteten auf dem Petersplatz."
 
-def save_extracted_text_to_docx(text_list, output_path):
-    doc = Document()
-    for text in text_list:
-        doc.add_paragraph(text)
-    doc.save(output_path)
-    print(f"✅ DOCX saved to: {output_path}")
+models_to_test = ["mistral", "yi:6b", "llama3.2:latest"]
 
-
-# Combine subtitles into a single string
-
-
-def main():
-    # Step 1: Get the latest subtitle XML URL
-    xml_url = find_latest_subtitle_url()
-    if not xml_url:
-        exit("❌ Could not find subtitle XML.")
-
-    # Step 2: Download XML content
-    xml_content = download_html_to_text(xml_url)
-
-    # Step 3: Extract subtitle lines
-    extracted_texts = extract_text_between_tags(xml_content)
-
-    # Optional print
-    print("📝 Extracted Texts:")
-    for line in extracted_texts:
-        print(line)
-
-    # Step 4: Save results to DOCX
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-    output_dir = Path("data")
-    output_dir.mkdir(exist_ok=True)
-    output_file = output_dir / f"subtitles_{timestamp}.docx"
-    save_extracted_text_to_docx(extracted_texts, output_file)
-    analysis = analyze_german_text_with_chatgpt(extracted_texts)
-
-    # Save result
-    output_path = Path("data") / f"chatgpt_analysis_{timestamp}.txt"
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(analysis)
-
-    print(f"📊 ChatGPT analysis saved to: {output_path}")
-
-
-if __name__ == "__main__":
-    main()
+for model in models_to_test:
+    print(f"\n🔍 Testing model: {model}")
+    try:
+        response = ollama_request(text, model=model, num_tokens=1200)
+        print("✅ SUCCESS:\n", response[:], "...\n")
+    except Exception as e:
+        print("❌ FAILED:", e)

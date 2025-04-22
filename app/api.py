@@ -1,62 +1,52 @@
-# Ideally this will be moved to environment or .env file later
-# to Keep this safe when pushing to GitHubv
+# api.py
 import os
-from dotenv import load_dotenv
-from pathlib import Path
 import requests
-import json
-
-load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
-load_dotenv()
-
-api_key = os.getenv("OPENAI_API_KEY")
-
-if api_key is None:
-    raise ValueError("OpenAI API key is not set in environment variables.")
-
-
-# Check key is valid
-if not api_key or not api_key.startswith("sk-"):
-    raise ValueError("❌ OpenAI API key is missing or malformed.")
-
-url = "https://api.openai.com/v1/chat/completions"
-headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
-
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+# from prompts import GERMAN_ANALYSIS_PROMPT
+from .ollama import ollama_request as ol_req
+from .prompts import GERMAN_ANALYSIS_PROMPT as GAP
 
 def analyze_german_text_with_chatgpt(text: str) -> str:
-    system_message = (
-        "You are a German language learning assistant. "
-        "The user gives you German text. You will: "
-        "1. Estimate the CEFR level of the text (e.g., B2, C1), "
-        "2. Rewrite the text in a simplified B1-B2 version, "
-        "3. List the top 50 vocabulary words to learn (with definitions), "
-        "4. Identify 5 key grammar points used in the text."
-    )
+    """
+    Sends text to ChatGPT (GPT-4o) using OpenAI API.
+    Returns AI analysis or error message.
+    """
+    api_key = os.getenv("OPENAI_API_KEY")
 
-    prompt = f"Here is the text:\n\n{text}"
+    if not api_key:
+        return "❌ API key missing. Please check your environment variables."
+
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
+
+    payload = {
+        "model": "gpt-4o",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content": GAP + text,
+            },
+        ],
+    }
 
     try:
         response = requests.post(
-            url,
-            headers=headers,
-            json={
-                "model": "gpt-4o",
-                "messages": [
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.7,
-                "max_tokens": 2000,
-            },
+            "https://api.openai.com/v1/chat/completions", headers=headers, json=payload
         )
 
         response.raise_for_status()
-        result = response.json()
-        return result["choices"][0]["message"]["content"]
+        return response.json()["choices"][0]["message"]["content"]
 
-    except requests.exceptions.RequestException as req_err:
-        return f"❌ Request error: {req_err}"
-    except KeyError:
-        return f"❌ Unexpected response format:\n{response.text}"
+    except requests.exceptions.HTTPError as http_err:
+        return f"❌ HTTP error: {http_err}"
     except Exception as e:
-        return f"❌ General error: {e}"
+        return f"❌ Error calling OpenAI API: {e}"
+
+
+def analyze_with_local_model(model_name: str, text: str, token_limit: int = 800) -> str:
+    """
+    Uses Ollama to analyze German text with selected local model.
+    """
+    return ol_req(text=text, model=model_name, num_tokens=token_limit)
