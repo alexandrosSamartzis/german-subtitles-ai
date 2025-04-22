@@ -2,6 +2,7 @@
 # import all packages
 import streamlit as st
 from pathlib import Path
+import os
 
 st.set_page_config(page_title="German Subtitle Simplifier", layout="wide")
 
@@ -31,7 +32,14 @@ model = (
         unsafe_allow_html=True,
     )
 )
+st.divider()
 
+st.markdown("### 🛑 App Controls")
+
+if st.button("❌ Close App"):
+    st.warning("Shutting down Streamlit app...")
+    os.system("pkill -f streamlit")
+    os._exit(0)
 
 # Run button
 if st.button("Run Analysis"):
