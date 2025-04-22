@@ -16,13 +16,15 @@ To streamline the development workflow, a macOS desktop shortcut was created usi
 
 **The flow:**
 
-1. 🔍 It parses the subtitle file by inspecting the network traffic from the Tagesschau website.
+1. 🔍 It parses the subtitle file by inspecting the network traffic from the Tagesschau website (auto-grabs latest XML).
 2. 🧼 Cleans and extracts readable text from the XML structure.
-3. 🤖 Sends the cleaned German text to **ChatGPT** (via OpenAI API) using a carefully crafted prompt:
+3. ✨ Streamlit UI with model selection toggle (ChatGPT or local LLM)
+4. 🤖 Sends the cleaned German text to **ChatGPT** (via OpenAI API) using a carefully crafted prompt:
    - Downgrade the text to a **B2 level**.
    - Highlight important **vocabulary**.
    - Identify key **grammar structures**.
-4. 📄 Outputs the results into `.docx` and `.txt` files, ready for review or study.
+5. 🧠 Supports offline models like Mistral and LLaMA3.2 via Ollama. (So far the result of the models is not satisfactory)
+6. 📄 Outputs the results with timestamp and model info (.txt or .docx).
 
 ---
 
@@ -43,14 +45,12 @@ To run this app locally, install Ollama and pull the required models:
 # Yi
 ollama pull yi:6b
 
-# DeepSeek Coder
-ollama pull deepseek-coder:6.7b
 
 # Mistral
 ollama pull mistral
 
 # LLaMA 3
-ollama pull llama3:8b
+ollama pull llama3.2(Lite)
 ```
 
 ## 🖼️ Preview
@@ -59,22 +59,10 @@ Here’s a sneak peek of the UI in development:
 
 ![Streamlit UI Preview](models.png)
 
-IT takes too much space for all models to co-exist so remember to run into:
+It takes too much space for all models to co-exist so remember to run into:
 
 ```bash
-# Yi
-ollama rm yi:6b
-ollama rm deepseek-coder:6.7b
-ollama rm mistral
-ollama rm llama3:8b
-```
-
-```or more generally
 ollama rm <model>
-```
-
-```after checking the
-ollama list
 ```
 
 ## 🚧 Roadmap: The Future of the App
@@ -83,13 +71,6 @@ I’m growing this tool step by step — here's what's coming next:
 
 ### ✅ Planned Features
 
-- 🖥 **UI Interface**: A button-based UI (likely in Streamlit) where I can:
-  - Toggle between using **ChatGPT** or a **local LLM model** (to save costs)
-  - Input new subtitle links manually
-  - View results directly in browser
-- 🧠 **Local AI Fallback**:
-  - Integrate with [Ollama](https://ollama.com) to use models like Mistral/Gemma offline
-  - Use my GPU cores efficiently
 - 🗃 **Database Integration**:
   - Save subtitle sessions, simplified texts, and vocabulary
   - Store and tag vocabulary in a PostgreSQL DB
@@ -116,13 +97,6 @@ This project is also part of my path toward becoming a **Solutions Architect** f
 
 ---
 
-## 🔐 API Key Handling
-
-To run this project, you’ll need your own OpenAI key.  
-Create a `.env` file in the root directory:
-
-OPENAI_API_KEY=your-api-key-here
-
 Then run the app normally using:
 
 ```bash
@@ -132,14 +106,6 @@ python app/main.py
 
 This is a solo project — but ideas, feedback, or kind encouragements are always welcome.
 Reach me at: alexandros.samartzisport@gmail.com
-
-📍 Status
-	•	MVP Completed
-	•	UI Toggle for ChatGPT vs Local LLM
-	•	PostgreSQL integration for subtitle sessions
-	•	Vocabulary tagging + quiz generation
-	•	Streamlit UI with dropdown filters
-	•	Automator-based daily routine launcher
 
 ⸻
 
