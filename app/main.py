@@ -7,13 +7,11 @@ from app.ollama import ollama_request
 import os
 
 # (Optional) if Ollama isn't found, manually add it to PATH
-os.environ["PATH"] += (
-    os.pathsep + "/Users/YOUR_USERNAME/.ollama/bin"
-)  # Replace if needed
+os.environ["PATH"] += os.pathsep + "/usr/local/bin"  # Replace if needed
 
 text = "Der Papst ist am Ostersonntag gestorben. Tausende Menschen beteten auf dem Petersplatz."
 
-models_to_test = ["mistral", "yi:6b", "llama3.2:latest"]
+models_to_test = ["mistral"] 
 
 for model in models_to_test:
     print(f"\n🔍 Testing model: {model}")

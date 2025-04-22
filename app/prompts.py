@@ -1,15 +1,5 @@
 # prompts.py
 
-GERMAN_ANALYSIS_PROMPT = """
-Please analyze the following German text for language learners:
-1. Estimate the CEFR level (e.g., B1, B2, C1)
-2. Rewrite the text in a simplified B1 German version of approximately 250–300 words. Make it sound natural, like a real news report, but easy to understand.
-3. Make sure your output is detailed enough to fill around 1–1.5 pages when formatted in a document. Avoid single-sentence answers. 
-
-
-Text:
-"""
-
 # GERMAN_ANALYSIS_PROMPT = """
 # Please analyze the following German text for language learners:
 # 1. Estimate the CEFR level (e.g., B1, B2, C1)
@@ -19,6 +9,15 @@ Text:
 # 5. Highlight anything idiomatic or cultural
 # 6. Make sure your output is detailed enough to fill around 1–1.5 pages when formatted in a document. Avoid single-sentence answers.
 # 7. Group your output with clear section titles and spacing.
-#
 # Text:
 # """
+
+
+GERMAN_ANALYSIS_PROMPT = """
+Please complete the following:
+
+1. Rewrite the following German news article in simpler B1–B2 language (250–300 words)
+2. Then list the CEFR level
+
+Text:
+"""

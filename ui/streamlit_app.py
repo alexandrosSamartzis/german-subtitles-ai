@@ -13,8 +13,7 @@ from app.fetcher import download_html_to_text, extract_text_between_tags
 from app.api import analyze_german_text_with_chatgpt, analyze_with_local_model
 
 # Add Ollama path if not already in PATH
-if "//usr/local/bin/ollama" not in os.environ["PATH"]:
-    os.environ["PATH"] += os.pathsep + "/usr/local/bin/ollama"
+os.environ["PATH"] += os.pathsep + "/usr/local/bin"
 
 load_dotenv()
 st.set_page_config(page_title="German Subtitle Simplifier", layout="wide")
