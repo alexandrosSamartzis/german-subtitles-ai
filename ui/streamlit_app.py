@@ -12,6 +12,7 @@ from app.parser import find_latest_subtitle_url
 from app.fetcher import download_html_to_text, extract_text_between_tags
 from app.api import analyze_german_text_with_chatgpt, analyze_with_local_model
 
+
 # Add Ollama path if not already in PATH
 os.environ["PATH"] += os.pathsep + "/usr/local/bin"
 

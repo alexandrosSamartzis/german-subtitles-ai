@@ -3,10 +3,12 @@ import os
 import requests
 import sys
 from pathlib import Path
+
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 # from prompts import GERMAN_ANALYSIS_PROMPT
 from .ollama import ollama_request as ol_req
 from .prompts import GERMAN_ANALYSIS_PROMPT as GAP
+
 
 def analyze_german_text_with_chatgpt(text: str) -> str:
     """
