@@ -1,21 +1,19 @@
 # ollama.py
-
-import subprocess
-import json
 import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-
-from app.prompts import GERMAN_ANALYSIS_PROMPT
+import subprocess
+import json
+from app.prompts import GERMAN_ANALYSIS_PROMPT as GAP
 
 
 def estimate_tokens(text):
     return int(len(text) / 4)  # Rough rule: 1 token ≈ 4 chars
 
 
-def ollama_request(text, model, num_tokens=1200):
-    full_prompt = f"{GERMAN_ANALYSIS_PROMPT}{text}"
+def ollama_request(model, text, num_tokens=800):
+    full_prompt = f"{GAP}{text}"
     payload = {"prompt": full_prompt, "options": {"num_predict": num_tokens}}
     try:
         result = subprocess.run(

@@ -6,6 +6,6 @@ conda activate subtitle-clean
 #
 ## Navigate to project folder (adjust if needed)
 cd ~/IT/german-subtitles-ai-folder/gerlearn
-#
+# ✅ Clear streamlit cache before each run (optional)
 ## Run the Streamlit app
 streamlit run ui/streamlit_app.py

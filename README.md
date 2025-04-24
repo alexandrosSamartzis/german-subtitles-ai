@@ -18,13 +18,14 @@ To streamline the development workflow, a macOS desktop shortcut was created usi
 
 1. 🔍 It parses the subtitle file by inspecting the network traffic from the Tagesschau website (auto-grabs latest XML).
 2. 🧼 Cleans and extracts readable text from the XML structure.
-3. ✨ Streamlit UI with model selection toggle (ChatGPT or local LLM)
+3. ✨ Streamlit UI with model selection toggle (ChatGPT, DeepSeek or local LLM)
 4. 🤖 Sends the cleaned German text to **ChatGPT** (via OpenAI API) using a carefully crafted prompt:
    - Downgrade the text to a **B2 level**.
    - Highlight important **vocabulary**.
    - Identify key **grammar structures**.
-5. 🧠 Supports offline models like Mistral and LLaMA3.2 via Ollama. (So far the result of the models is not satisfactory)
-6. 📄 Outputs the results with timestamp and model info (.txt or .docx).
+5. Possible prompt to inout a new selected request.
+6. 🧠 Supports offline models like Mistral and LLaMA3.2 via Ollama. (So far the result of the models is not satisfactory)
+7. 📄 Outputs the results with timestamp and model info (.txt or .docx).
 
 ---
 
@@ -33,6 +34,7 @@ To streamline the development workflow, a macOS desktop shortcut was created usi
 - Python 3
 - `requests`, `re`, `docx`, `dotenv`
 - OpenAI API (GPT-4o)
+- DeepSeek (Online)
 - Shell scripts (planned integration with Automator)
 
 ---
@@ -44,7 +46,6 @@ To run this app locally, install Ollama and pull the required models:
 ```bash
 # Yi
 ollama pull yi:6b
-
 
 # Mistral
 ollama pull mistral
@@ -88,7 +89,7 @@ I’m growing this tool step by step — here's what's coming next:
 I’m learning German — and as a developer, I wanted to **build the tools I need to learn better**.  
 What started as a personal helper has become a showcase of:
 
-- 🛠 API integration (OpenAI)
+- 🛠 API integration (OpenAI, DeepSeek)
 - ⚙️ Automation and scripting
 - 🧠 NLP-assisted simplification
 - 🧩 Future-ready app design and project ownership

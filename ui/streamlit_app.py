@@ -10,7 +10,10 @@ from datetime import datetime
 import streamlit as st
 from app.parser import find_latest_subtitle_url
 from app.fetcher import download_html_to_text, extract_text_between_tags
-from app.api import analyze_german_text_with_chatgpt, analyze_with_local_model
+from app.api import analyze_with_local_model, analyze_german_text_with_chatgpt
+import app.api as aapi
+
+# , analyze_with_deepseek
 
 
 # Add Ollama path if not already in PATH
@@ -26,18 +29,25 @@ Welcome! This app helps language learners by analyzing real-world German subtitl
 It uses AI to simplify the text, extract vocabulary, and highlight grammar insights.
 """
 )
-
 # User input: Subtitle XML URL
 subtitle_url = st.text_input("Enter the XML URL")
 
+# 🧠 Custom Prompt
+st.markdown("### 🧠 Custom Prompt (Optional)")
+custom_prompt = st.text_area(
+    "Write your own question or instruction to the AI (leave blank to use the default).",
+    placeholder="e.g., Please summarize this subtitle in easier German...",
+)
+
 # Toggle for model
 model_options = [
-    "Not selected",
     "ChatGPT (GPT-4o 🤖)",
+    "DeepSeek (Online) 🌐",
     "Mistral 🧠 (local)",
     "Yi:6B 🌸",
     "LLaMA3.2 (Lite) 🐑",
 ]
+
 
 model_choice = st.radio(
     "🎛️ Choose a Model:", options=model_options, index=0, horizontal=False
@@ -53,6 +63,12 @@ elif model_choice == "Mistral 🧠 (local)":
     st.write("- 🔧 Fast, small, and accurate")
     st.write("- ✅ No API cost, runs on your Mac")
     st.write("- 🧪 Best for general summarization")
+
+elif model_choice == "DeepSeek (Online) 🌐":
+    st.markdown("### DeepSeek (Online) 🌐")
+    st.write("- 🌍 Hosted API access (like ChatGPT)")
+    st.write("- 💡 Good general reasoning")
+    st.write("- 🔄 Uses your dynamic or default prompt")
 
 elif model_choice == "Yi:6B 🌸":
     st.markdown("### Yi:6B 🌸")
@@ -117,6 +133,10 @@ if st.button("Run Analysis"):
         if model_choice == "ChatGPT (GPT-4o 🤖)":
             with st.spinner("🔗 Connecting to ChatGPT..."):
                 response = analyze_german_text_with_chatgpt(cleaned_text)
+
+        elif model_choice == "DeepSeek (Online) 🌐":
+            with st.spinner("💡 DeepSeek is analyzing your text..."):
+                response = aapi.analyze_with_deepseek(cleaned_text)
 
         elif model_choice == "Mistral 🧠 (local)":
             with st.spinner("🧠 Running Mistral locally..."):
